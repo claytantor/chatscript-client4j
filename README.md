@@ -18,5 +18,4 @@ Clay: I want something.
 Harry: Indeed.
 >.
 done.
- claytongrah
 ```
