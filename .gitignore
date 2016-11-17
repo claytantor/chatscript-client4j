@@ -16,3 +16,7 @@ build/
 .idea/
 
 gradlew.bat
+
+chatscript-client4j.iml
+chatscript-client4j.ipr
+chatscript-client4j.iws
