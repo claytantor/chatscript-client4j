@@ -26,7 +26,7 @@ public class ChatScriptClient {
             while((input = br.readLine()) != null){
                 if(input.equals("."))
                     break;
-                System.out.println(input);
+                System.out.println(user+": "+input);
 
                 Socket chatscriptSocket = new Socket(hostName, portNumber);
                 DataOutputStream os = new DataOutputStream(chatscriptSocket.getOutputStream());
