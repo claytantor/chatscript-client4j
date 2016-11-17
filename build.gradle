@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jar {
+    baseName = "${baseName}"
+    version = "${currentVersion}"
+}
+
+shadowJar {
+    baseName = "${baseName}"
+    version = "${currentVersion}"
+
+    zip64 true
+
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+
+    // Required for Spring
+    mergeServiceFiles()
+    transform(com.github.jengelman.gradle.plugins.shadow.transformers.AppendingTransformer) { resource = 'META-INF/cxf/bus-extensions.txt' }
+    transform(com.github.jengelman.gradle.plugins.shadow.transformers.XmlAppendingTransformer) { resource = 'META-INF/cxf/cxf-extension-xml.xml' }
+    transform(com.github.jengelman.gradle.plugins.shadow.transformers.XmlAppendingTransformer) { resource = 'META-INF/cxf/cxf-extension-http-jetty.xml' }
+    transform(com.github.jengelman.gradle.plugins.shadow.transformers.XmlAppendingTransformer) { resource = 'META-INF/cxf/cxf-extension-http.xml' }
+    transform(com.github.jengelman.gradle.plugins.shadow.transformers.XmlAppendingTransformer) { resource = 'META-INF/cxf/cxf-servlet.xml' }
+    transform(com.github.jengelman.gradle.plugins.shadow.transformers.XmlAppendingTransformer) { resource = 'META-INF/cxf/cxf.xml' }
+
+}
+
+
