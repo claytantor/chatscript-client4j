@@ -1,4 +1,7 @@
-package com.claytantor.chatscript.client;
+package com.claytantor.chatscript.client.app;
+
+import com.claytantor.chatscript.client.impl.ChatScriptClient;
+import com.claytantor.chatscript.client.impl.ChatScriptClientException;
 
 import java.io.*;
 import java.net.Socket;
@@ -7,7 +10,7 @@ import java.net.UnknownHostException;
 /**
  * Created by claytongraham on 11/16/16.
  */
-public class ChatScriptClient {
+public class ChatScriptClientApp {
 
     public static void main(String[] args){
 
@@ -15,6 +18,10 @@ public class ChatScriptClient {
         int portNumber = Integer.parseInt(args[1]);
         String user = args[2];
         String robotName = args[3];
+
+        //make the client
+        ChatScriptClient client = new ChatScriptClient(hostName,portNumber,user,robotName);
+
         System.out.println("Lets start chatting "+user+"!");
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -27,29 +34,16 @@ public class ChatScriptClient {
                 if(input.equals("."))
                     break;
                 System.out.println(user+": "+input);
-
-                Socket chatscriptSocket = new Socket(hostName, portNumber);
-                DataOutputStream os = new DataOutputStream(chatscriptSocket.getOutputStream());
-                DataInputStream is = new DataInputStream(chatscriptSocket.getInputStream());
-
-                os.writeBytes(String.format("%s\u0000%s\u0000%s\u0000",user,robotName, input));
-                String responseLine;
-                while ((responseLine = is.readLine()) != null) {
-                    System.out.println(robotName+": " + responseLine);
-                }
-
-                is.close();
-                os.close();
-                chatscriptSocket.close();
+                System.out.println(robotName+": " + client.send(input));
                 System.out.print(">");
 
             }
             System.out.println("done.");
 
-        } catch (UnknownHostException e) {
-            System.err.println("Trying to connect to unknown host: " + e);
         } catch (IOException e) {
             System.err.println("IOException:  " + e);
+        } catch (ChatScriptClientException e) {
+            System.err.println("ChatScriptClientException:  " + e);
         }
     }
 

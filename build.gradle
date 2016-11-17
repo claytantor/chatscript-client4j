@@ -12,7 +12,7 @@ apply plugin: 'idea'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-mainClassName = 'com.claytantor.chatscript.client.ChatScriptClient'
+mainClassName = 'com.claytantor.chatscript.client.app.ChatScriptClientApp'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
